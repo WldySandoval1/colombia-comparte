@@ -14,6 +14,7 @@ export class RoutesApi {
 
     private initRoutes(): void {
         this._app.use('/api/v1/user', this.authRouter.router);
+        this._app.use('/api/v1/dashboard', this.authRouter.router);
     }
 }
 

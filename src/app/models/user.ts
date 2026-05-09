@@ -1,7 +1,7 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 import { IUser } from "../services/interfaces/user";
 
-interface IUserDocument extends IUser, Document {}
+interface IUserDocument extends IUser, Document { }
 
 export const UserSchema = new Schema<IUserDocument>({
   id: {
@@ -33,6 +33,19 @@ export const UserSchema = new Schema<IUserDocument>({
       return this.isNew;
     },
   },
+
+  rol: {
+    type: String,
+    enum: ['superadmin', 'admin_pais', 'editor'],
+    required: true,
+    default: 'editor',        // valor por defecto al crear un usuario
+  },
+  pais_asignado: {
+    type: Types.ObjectId,
+    ref: 'Pais',              // referencia a la colección de países
+    default: null,            // null si es superadmin
+  },
+
   CreatedAt: {
     type: Date,
     required: function (this: IUserDocument) {
