@@ -1,7 +1,7 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 import { IUser } from "../services/interfaces/user";
 
-interface IUserDocument extends IUser, Document { }
+interface IUserDocument extends IUser, Document {}
 
 export const UserSchema = new Schema<IUserDocument>({
   id: {
@@ -36,14 +36,17 @@ export const UserSchema = new Schema<IUserDocument>({
 
   rol: {
     type: String,
-    enum: ['superadmin', 'admin_pais', 'editor'],
+    enum: ["superadmin", "admin_pais", "editor"],
     required: true,
-    default: 'editor',        // valor por defecto al crear un usuario
+    default: "editor", // valor por defecto al crear un usuario
   },
   pais_asignado: {
-    type: Types.ObjectId,
-    ref: 'Pais',              // referencia a la colección de países
-    default: null,            // null si es superadmin
+    type: String,
+    enum: ["Chile", "Colombia", "Ecuador", null],
+    required: function (this: IUserDocument) {
+      return this.rol !== "superadmin";
+    },
+    default: null,
   },
 
   CreatedAt: {
@@ -60,17 +63,17 @@ export const UserSchema = new Schema<IUserDocument>({
   },
 });
 
-UserSchema.method('toJSON', function () {
+UserSchema.method("toJSON", function () {
   const { __v, _id, password, ...data } = this.toObject();
   data.uid = _id;
   return data;
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre("save", function (next) {
   if (!this.isNew) {
     this.UpdatedAt = new Date();
   }
   next();
 });
 
-export const UserModel = model('User', UserSchema);
+export const UserModel = model("User", UserSchema);

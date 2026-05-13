@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 const NoticiaSchema = new Schema({
   titulo: String,
@@ -6,9 +6,17 @@ const NoticiaSchema = new Schema({
   contenido: String,
   autor: String,
   imagen_url: String,
-  pais: { type: Schema.Types.ObjectId, ref: 'Pais' },
-  estado: { type: String, enum: ['borrador', 'publicado'], default: 'borrador' },
+  pais: {
+    type: String,
+    enum: ["Chile", "Colombia", "Ecuador"],
+    required: true,
+  },
+  estado: {
+    type: String,
+    enum: ["borrador", "publicado"],
+    default: "borrador",
+  },
   fecha_creacion: { type: Date, default: Date.now },
 });
 
-export const NoticiaModel = model('Noticia', NoticiaSchema);
+export const NoticiaModel = model("Noticia", NoticiaSchema);
