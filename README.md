@@ -1,3 +1,9 @@
+## Integrantes
+
+Laura Daniela Solano Niño
+Wldy Enrique Sandoval Garzón
+Angélica Natalia Puentes Díaz
+
 # backend
 
 necesitan configurar el config.ts en local dentro de la carpeta src, con la siguiente estructura:
